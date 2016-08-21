@@ -1,9 +1,9 @@
 ! This grammar describes a comma-separated list of integers.
-"Name"     = 'Commas Forever'
-"Author"   = 'Joe Coder'
+"Name"     = 'Arithmetic Expression'
+"Author"   = 'Luan Rios Campos'
 "Version"  = '0.01'
-"About"    = 'Comma-separated list of integers'
-"Case Sensitive" = true   ! Doesn't really matter since there's no letters
+"About"    = 'Grammar for detecting arithmetic expressions considering precedence and associativity'
+"Case Sensitive" = false
 
 "Start Symbol" = <exp_arit>
 
