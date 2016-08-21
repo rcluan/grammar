@@ -1,0 +1,19 @@
+! This grammar describes a comma-separated list of integers.
+"Name"     = 'Commas Forever'
+"Author"   = 'Joe Coder'
+"Version"  = '0.01'
+"About"    = 'Comma-separated list of integers'
+"Case Sensitive" = true   ! Doesn't really matter since there's no letters
+
+"Start Symbol" = <exp_arit>
+
+! -- Terminals -----------------------------------------
+
+Identificador = {Letter}({Letter}|{AlphaNumeric}|_)*
+Numero = {Number} + ('.'{Number} + )?
+
+! -- Rules ---------------------------------------------
+
+<exp_arit> ::= <mulexp_arit> '+' <exp_arit> | <mulexp_arit> '-' <exp_arit> | <mulexp_arit>
+<mulexp_arit> ::= <rootexp_arit> '*' <mulexp_arit> | <rootexp_arit> '/' <mulexp_arit> | <rootexp_arit>
+<rootexp_arit> ::= '('<exp_arit>')' | Identificador | Numero
