@@ -1,0 +1,20 @@
+"Name"     = 'Logic Expression'
+"Author"   = ''
+"Version"  = '0.01'
+"About"    = ''
+"Case Sensitive" = true
+
+"Start Symbol" = <logic_exp>
+
+! -- Terminals -----------------------------------------
+
+Identificador = {Letter}({Letter}|{AlphaNumeric}|_)*
+Numero = {Number} + ('.'{Number} + )?
+
+! -- Rules ---------------------------------------------
+
+<relational_exp> ::= <relational_content> '=' <relational_content> | <relational_content> '>' <relational_content> | <relational_content> '<' <relational_content> | <relational_content> '<>' <relational_content> | <relational_content> '>=' <relational_content> | <relational_content> '<=' <relational_content>
+<relational_content> ::= Identificador | Numero
+
+<logic_exp> ::= <rootlogic_exp>
+<rootlogic_exp> ::= 'nao'<relational_exp> | <relational_exp> 'e' <relational_exp> | <relational_exp> 'ou' <relational_exp>
