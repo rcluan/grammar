@@ -1,0 +1,40 @@
+"Name"     = 'Arithmetic Expression'
+"Author"   = 'Luan Rios Campos'
+"Version"  = '0.01'
+"About"    = 'Grammar for detecting arithmetic expressions considering precedence and associativity'
+"Case Sensitive" = false
+
+"Start Symbol" = <constantes>
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+{String Chars} = {Printable} + {HT} - ["]
+{Chars} = {Printable} + {HT} - ['']      
+
+
+! -- Terminals -----------------------------------------
+
+Identificador	= {Letter}({Letter}|{AlphaNumeric}|_)*
+Cadeia = '"' {String Chars}* '"'
+Numero = {Number} + ('.'{Number} + )?
+Caractere = '' {Chars} ''
+
+! -- Rules ---------------------------------------------
+
+<lambda> ::=
+<valor_atribuicao> ::= Identificador | Numero | Cadeia | Caractere
+
+!Tipo variável
+<tipo_variavel> ::= 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
+
+!Vetor
+<vetor> ::=  '(' <valor_atribuicao> <lista_vetor>')' | <lambda>
+<lista_vetor> ::= ',' <valor_atribuicao> | <lambda>
+
+!Constantes
+<constantes> ::=  'const' 'inicio' <bloco_constantes> 'fim'
+<bloco_constantes> ::=  <tipo_variavel> <declaracao_const> ';'<bloco_constantes> | <lambda>
+<declaracao_const> ::= Identificador <vetor> '=' <valor_atribuicao> <lista_declr_const>
+<lista_declr_const> ::= ',' <declaracao_const> |  <lambda>

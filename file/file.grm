@@ -1,0 +1,106 @@
+"Name" = 'File Grammar'
+"Author"   = 'MI Processamento de Linguagens - T03'
+"Version"  = '0.1'
+"About"	= ''
+
+"Start Symbol" = <arquivo>
+"Case Sensitive" = True
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+{String Chars} = {Printable} + {HT} - ["]
+{Chars} = {Printable} + {HT} - ['']          	 
+
+! -------------------------------------------------
+! Terminals
+! -------------------------------------------------
+
+Identificador	= {Letter}({Letter}|{AlphaNumeric}|_)*
+Cadeia = '"' {String Chars}* '"'
+Numero = {Number} + ('.'{Number} + )?
+Caractere = '' {Chars} ''
+
+! -------------------------------------------------
+! Rules
+! -------------------------------------------------
+
+! The grammar starts below
+
+<lambda> ::= 
+
+!Estrutura do arquivo
+<arquivo> ::= <constantes> <variaveis> <programa> <funcao>
+
+!Tipo variável
+<tipo_variavel> ::= 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
+
+!Constantes
+<constantes> ::=  'const' 'inicio' <bloco_constantes> 'fim'
+<bloco_constantes> ::=  <tipo_variavel> <declaracao_const> ';'<bloco_constantes> | <lambda>
+<declaracao_const> ::= Identificador <vetor> '=' <valor_atribuicao> <lista_declr_const>
+<lista_declr_const> ::= ',' <declaracao_const> |  <lambda>
+
+!Variáveis
+<variaveis> ::=  'var' 'inicio'<bloco_variaveis> 'fim'
+<bloco_variaveis> ::=   <tipo_variavel> <declaracao_var> ';' <bloco_variaveis> | <lambda>
+<declaracao_var> ::= Identificador <vetor> <lista_declr_var>
+<lista_declr_var> ::= ',' <declaracao_var> | <lambda>
+
+!Vetor
+<vetor> ::=  '(' <valor_atribuicao> <lista_vetor>')' | <lambda>
+<lista_vetor> ::= ',' <valor_atribuicao> | <lambda>
+
+!Programa
+<programa> ::= 'programa'<bloco>
+
+!Comando escreva
+<comando_escr> ::= 'escreva('<conteudo_escreva>')'
+<conteudo_escreva> ::= Cadeia<lista_escr> | Caractere<lista_escr> | <exp_arit><lista_escr>
+<lista_escr> ::= ','<conteudo_escreva> | <lambda>
+
+!Comando lógico (se..entao..senao, enquanto)
+<comando_logico> ::= <comando_se> | <comando_enquanto>
+<comando_se> ::= 'se'<exp_cmd_logico>'entao'<bloco><comando_senao>
+<comando_senao> ::= 'senao'<bloco> | <lambda>
+<comando_enquanto> ::= 'enquanto'<exp_cmd_logico>'faca'<bloco>
+<exp_cmd_logico> ::= <exp_relacional> | <exp_logica>
+
+!Comando leia
+<comando_leia> ::= 'leia('<conteudo_leia>')'
+<conteudo_leia> ::= Identificador<lista_leia>
+<lista_leia> ::= ','<conteudo_leia> | <lambda>
+
+!Atribuição
+<atribuicao> ::= Identificador '=' <valor_atribuicao>
+<valor_atribuicao> ::= <chamada_funcao> | Cadeia | Caractere | <exp_arit>
+
+!Bloco
+<bloco> ::= 'inicio'<conteudo_bloco>'fim'
+<conteudo_bloco> ::= <comando_logico> | <comando_escr> | <comando_leia> | <chamada_funcao> | <atribuicao>
+
+!Função
+<funcao> ::= 'funcao'<tipo> Identificador '('<conteudo_parametro>')'<bloco>
+<tipo> ::= 'inteiro' | 'real' | 'booleano' | <lambda>
+<conteudo_parametro> ::= <tipo>Identificador<lista_parametro>
+<lista_parametro> ::= ','<conteudo_parametro> | <lambda>
+
+!Chamada de Função
+<chamada_funcao> ::= Identificador'('<conteudo_chamada>')'
+<conteudo_chamada> ::= <valor_chamada><lista_chamada>
+<lista_chamada> ::= ','<conteudo_chamada> | <lambda>
+<valor_chamada> ::= Identificador | Numero
+
+!Expressão aritmética
+<exp_arit> ::= <mulexp_arit> '+' <exp_arit> | <mulexp_arit> '-' <exp_arit> | <mulexp_arit>
+<mulexp_arit> ::= <rootexp_arit> '*' <mulexp_arit> | <rootexp_arit> '/' <mulexp_arit> | <rootexp_arit>
+<rootexp_arit> ::= '('<exp_arit>')' | Identificador | Numero
+
+!Expressões relacionais
+<exp_relacional> ::= <conteudo_relacional> '=' <conteudo_relacional> | <conteudo_relacional> '>' <conteudo_relacional> | <conteudo_relacional> '<' <conteudo_relacional> | <conteudo_relacional> '<>' <conteudo_relacional> | <conteudo_relacional> '>=' <conteudo_relacional> | <conteudo_relacional> '<=' <conteudo_relacional> | '('<exp_relacional>')'
+<conteudo_relacional> ::= Identificador | Numero
+
+!Expressões lógicas
+<exp_logica> ::= 'nao'<exp_relacional> | <exp_relacional> 'e' <exp_relacional> | <exp_relacional> 'ou' <exp_relacional>
+
