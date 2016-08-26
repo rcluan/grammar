@@ -31,7 +31,7 @@ Caractere = '' {Chars} ''
 <lambda> ::= 
 
 !Estrutura do arquivo
-<arquivo> ::= <constantes> <variaveis> <programa> <funcao>
+<arquivo> ::= <constantes> <var_global> <programa> <funcao>
 
 !Tipo variável
 <tipo_variavel> ::= 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
@@ -42,11 +42,14 @@ Caractere = '' {Chars} ''
 <declaracao_const> ::= Identificador <vetor> '=' <valor_atribuicao> <lista_declr_const>
 <lista_declr_const> ::= ',' <declaracao_const> |  <lambda>
 
-!Variáveis
-<variaveis> ::=  'var' 'inicio'<bloco_variaveis> 'fim' | <lambda>
+!Variáveis Globais
+<var_global> ::=  'var' 'inicio'<bloco_variaveis> 'fim' | <lambda>
 <bloco_variaveis> ::=   <tipo_variavel> <declaracao_var> ';' <bloco_variaveis> | <lambda>
 <declaracao_var> ::= Identificador <vetor> <lista_declr_var>
 <lista_declr_var> ::= ',' <declaracao_var> | <lambda>
+
+!Variáveis
+<variavel> ::= 'var'<tipo_variavel><declaracao_var>';'
 
 !Vetor
 <vetor> ::=  '(' <valor_atribuicao> <lista_vetor>')' | <lambda>
@@ -73,12 +76,12 @@ Caractere = '' {Chars} ''
 <lista_leia> ::= ','<conteudo_leia> | <lambda>
 
 !Atribuição
-<atribuicao> ::= Identificador '=' <valor_atribuicao> ';'
+<atribuicao> ::= Identificador '=' <valor_atribuicao>';'
 <valor_atribuicao> ::= <chamada_funcao> | Cadeia | Caractere | <exp_arit>
 
 !Bloco
 <bloco> ::= 'inicio'<conteudo_bloco>'fim'
-<conteudo_bloco> ::= <comando_logico><conteudo_bloco> | <comando_escr><conteudo_bloco> | <comando_leia><conteudo_bloco> | <chamada_funcao><conteudo_bloco> | <atribuicao><conteudo_bloco> | <lambda>
+<conteudo_bloco> ::= <variavel><conteudo_bloco> | <comando_logico><conteudo_bloco> | <comando_escr><conteudo_bloco> | <comando_leia><conteudo_bloco> | <chamada_funcao><conteudo_bloco> | <atribuicao><conteudo_bloco> | <lambda>
 
 !Identificador ou Numero
 <id_num> ::= Identificador | Numero
@@ -86,12 +89,12 @@ Caractere = '' {Chars} ''
 !Função
 <funcao> ::= 'funcao'<tipo> Identificador '('<conteudo_parametro>')'<bloco>
 <tipo> ::= 'inteiro' | 'real' | 'booleano' | <lambda>
-<conteudo_parametro> ::= <tipo>Identificador<lista_parametro>
+<conteudo_parametro> ::= <tipo>Identificador<lista_parametro> | <lambda>
 <lista_parametro> ::= ','<conteudo_parametro> | <lambda>
 
 !Chamada de Função
 <chamada_funcao> ::= Identificador'('<conteudo_chamada>');'
-<conteudo_chamada> ::= <id_num><lista_chamada>
+<conteudo_chamada> ::= <id_num><lista_chamada> | <lambda>
 <lista_chamada> ::= ','<conteudo_chamada> | <lambda>
 
 !Expressão aritmética

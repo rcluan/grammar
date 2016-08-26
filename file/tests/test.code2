@@ -1,0 +1,28 @@
+const
+  inicio
+    inteiro max = 20;
+  fim
+
+var
+  inicio
+    real valor;
+  fim
+
+programa
+  inicio
+    valor = conta();;
+    valor = valor / 5;
+    escreva(valor);
+  fim
+
+funcao conta()
+  inicio
+   var inteiro conta;  
+   conta = 0;
+
+   enquanto (conta < max) faca
+     inicio
+      escreva (conta+1);
+      conta = i*2;
+     fim
+  fim
