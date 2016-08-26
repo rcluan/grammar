@@ -1,0 +1,43 @@
+var
+  inicio
+    inteiro num, checker;
+    inteiro count, adder;
+  fim
+
+programa
+  inicio
+    escreva("Digite um numero");
+    leia(num);
+    adder = 0;
+    count = 1;
+
+    enquanto(count < 10) faca
+      inicio
+        checker = mod(num, count) ;
+        se (checker = 0) entao
+	  inicio
+	    adder = adder + 1;
+	  fim
+      fim
+     se (num <= 10 e adder > 2) entao
+       inicio
+         escreva("nao eh primo");
+       fim
+     senao
+       inicio
+         se(num > 10 e adder > 1) entao
+           inicio
+             escreva("nao eh primo");
+           fim
+         senao
+           inicio
+             escreva("eh primo");
+           fim
+       fim
+  fim
+
+funcao mod (inteiro i, inteiro j)
+  inicio
+    var inteiro mod;
+    mod = i - (i / j) * j;
+  fim

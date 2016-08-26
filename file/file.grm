@@ -65,10 +65,9 @@ Caractere = '' {Chars} ''
 
 !Comando lógico (se..entao..senao, enquanto)
 <comando_logico> ::= <comando_se> | <comando_enquanto>
-<comando_se> ::= 'se'<exp_cmd_logico>'entao'<bloco><comando_senao>
+<comando_se> ::= 'se''('<exp_logica>')''entao'<bloco><comando_senao>
 <comando_senao> ::= 'senao'<bloco> | <lambda>
-<comando_enquanto> ::= 'enquanto'<exp_cmd_logico>'faca'<bloco>
-<exp_cmd_logico> ::= <exp_relacional> | <exp_logica>
+<comando_enquanto> ::= 'enquanto''('<exp_logica>')''faca'<bloco>
 
 !Comando leia
 <comando_leia> ::= 'leia('<conteudo_leia>');'
@@ -108,5 +107,6 @@ Caractere = '' {Chars} ''
 <exp_relacional> ::= <id_num> '=' <id_num> | <id_num> '>' <id_num> | <id_num> '<' <id_num> | <id_num> '<>' <id_num> | <id_num> '>=' <id_num> | <id_num> '<=' <id_num> | '('<exp_relacional>')'
 
 !Expressões lógicas
-<exp_logica> ::= 'nao'<exp_relacional> | <exp_relacional> 'e' <exp_relacional> | <exp_relacional> 'ou' <exp_relacional>
+<exp_logica> ::= 'nao'<exp_relacional> | <exp_relacional><exp_logica_ext>
+<exp_logica_ext> ::= 'e' <exp_relacional> | 'ou' <exp_relacional> | <lambda>
 
