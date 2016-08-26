@@ -37,13 +37,13 @@ Caractere = '' {Chars} ''
 <tipo_variavel> ::= 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 
 !Constantes
-<constantes> ::=  'const' 'inicio' <bloco_constantes> 'fim'
+<constantes> ::=  'const' 'inicio' <bloco_constantes> 'fim' | <lambda>
 <bloco_constantes> ::=  <tipo_variavel> <declaracao_const> ';'<bloco_constantes> | <lambda>
 <declaracao_const> ::= Identificador <vetor> '=' <valor_atribuicao> <lista_declr_const>
 <lista_declr_const> ::= ',' <declaracao_const> |  <lambda>
 
 !Variáveis
-<variaveis> ::=  'var' 'inicio'<bloco_variaveis> 'fim'
+<variaveis> ::=  'var' 'inicio'<bloco_variaveis> 'fim' | <lambda>
 <bloco_variaveis> ::=   <tipo_variavel> <declaracao_var> ';' <bloco_variaveis> | <lambda>
 <declaracao_var> ::= Identificador <vetor> <lista_declr_var>
 <lista_declr_var> ::= ',' <declaracao_var> | <lambda>
@@ -56,7 +56,7 @@ Caractere = '' {Chars} ''
 <programa> ::= 'programa'<bloco>
 
 !Comando escreva
-<comando_escr> ::= 'escreva('<conteudo_escreva>')'
+<comando_escr> ::= 'escreva''('<conteudo_escreva>');'
 <conteudo_escreva> ::= Cadeia<lista_escr> | Caractere<lista_escr> | <exp_arit><lista_escr>
 <lista_escr> ::= ','<conteudo_escreva> | <lambda>
 
@@ -68,17 +68,20 @@ Caractere = '' {Chars} ''
 <exp_cmd_logico> ::= <exp_relacional> | <exp_logica>
 
 !Comando leia
-<comando_leia> ::= 'leia('<conteudo_leia>')'
+<comando_leia> ::= 'leia''('<conteudo_leia>')'
 <conteudo_leia> ::= Identificador<lista_leia>
 <lista_leia> ::= ','<conteudo_leia> | <lambda>
 
 !Atribuição
-<atribuicao> ::= Identificador '=' <valor_atribuicao>
+<atribuicao> ::= Identificador '=' <valor_atribuicao> ';'
 <valor_atribuicao> ::= <chamada_funcao> | Cadeia | Caractere | <exp_arit>
 
 !Bloco
 <bloco> ::= 'inicio'<conteudo_bloco>'fim'
-<conteudo_bloco> ::= <comando_logico> | <comando_escr> | <comando_leia> | <chamada_funcao> | <atribuicao>
+<conteudo_bloco> ::= <comando_logico><conteudo_bloco> | <comando_escr><conteudo_bloco> | <comando_leia><conteudo_bloco> | <chamada_funcao><conteudo_bloco> | <atribuicao><conteudo_bloco> | <lambda>
+
+!Identificador ou Numero
+<id_num> ::= Identificador | Numero
 
 !Função
 <funcao> ::= 'funcao'<tipo> Identificador '('<conteudo_parametro>')'<bloco>
@@ -87,19 +90,17 @@ Caractere = '' {Chars} ''
 <lista_parametro> ::= ','<conteudo_parametro> | <lambda>
 
 !Chamada de Função
-<chamada_funcao> ::= Identificador'('<conteudo_chamada>')'
-<conteudo_chamada> ::= <valor_chamada><lista_chamada>
+<chamada_funcao> ::= Identificador'('<conteudo_chamada>');'
+<conteudo_chamada> ::= <id_num><lista_chamada>
 <lista_chamada> ::= ','<conteudo_chamada> | <lambda>
-<valor_chamada> ::= Identificador | Numero
 
 !Expressão aritmética
 <exp_arit> ::= <mulexp_arit> '+' <exp_arit> | <mulexp_arit> '-' <exp_arit> | <mulexp_arit>
 <mulexp_arit> ::= <rootexp_arit> '*' <mulexp_arit> | <rootexp_arit> '/' <mulexp_arit> | <rootexp_arit>
-<rootexp_arit> ::= '('<exp_arit>')' | Identificador | Numero
+<rootexp_arit> ::= '('<exp_arit>')' | <id_num>
 
 !Expressões relacionais
-<exp_relacional> ::= <conteudo_relacional> '=' <conteudo_relacional> | <conteudo_relacional> '>' <conteudo_relacional> | <conteudo_relacional> '<' <conteudo_relacional> | <conteudo_relacional> '<>' <conteudo_relacional> | <conteudo_relacional> '>=' <conteudo_relacional> | <conteudo_relacional> '<=' <conteudo_relacional> | '('<exp_relacional>')'
-<conteudo_relacional> ::= Identificador | Numero
+<exp_relacional> ::= <id_num> '=' <id_num> | <id_num> '>' <id_num> | <id_num> '<' <id_num> | <id_num> '<>' <id_num> | <id_num> '>=' <id_num> | <id_num> '<=' <id_num> | '('<exp_relacional>')'
 
 !Expressões lógicas
 <exp_logica> ::= 'nao'<exp_relacional> | <exp_relacional> 'e' <exp_relacional> | <exp_relacional> 'ou' <exp_relacional>

@@ -13,6 +13,10 @@ Numero = {Number} + ('.'{Number} + )?
 
 ! -- Rules ---------------------------------------------
 
-<exp_arit> ::= <mulexp_arit> '+' <exp_arit> | <mulexp_arit> '-' <exp_arit> | <mulexp_arit>
+<lambda> ::=
+<id_num> ::= Identificador | Numero
+
+<exp_arit> ::= <mulexp_arit> '+' <exp_arit> | <mulexp_arit> '-' <exp_arit> | <mulexp_arit> <fim_exp> | <lambda>
 <mulexp_arit> ::= <rootexp_arit> '*' <mulexp_arit> | <rootexp_arit> '/' <mulexp_arit> | <rootexp_arit>
-<rootexp_arit> ::= '('<exp_arit>')' | Identificador | Numero
+<rootexp_arit> ::= '('<exp_arit>')' | <id_num>
+<fim_exp> ::= ';' <exp_arit>
