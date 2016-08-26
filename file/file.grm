@@ -77,7 +77,7 @@ Caractere = '' {Chars} ''
 
 !Atribuição
 <atribuicao> ::= Identificador '=' <valor_atribuicao>';'
-<valor_atribuicao> ::= <chamada_funcao> | Cadeia | Caractere | <exp_arit>
+<valor_atribuicao> ::= Cadeia | Caractere | <exp_arit>
 
 !Bloco
 <bloco> ::= 'inicio'<conteudo_bloco>'fim'
@@ -90,19 +90,19 @@ Caractere = '' {Chars} ''
 <funcao> ::= 'funcao'<tipo> Identificador<parametro_funcao><bloco>
 <tipo> ::= 'inteiro' | 'real' | 'booleano' | <lambda>
 <parametro_funcao> ::= '('<conteudo_parametro>')' | '()'
-<conteudo_parametro> ::= <tipo>Identificador<lista_parametro> | <lambda>
-<lista_parametro> ::= ','<conteudo_parametro>
+<conteudo_parametro> ::= <tipo>Identificador<lista_parametro>
+<lista_parametro> ::= ','<conteudo_parametro> | <lambda>
 
 !Chamada de Função
 <chamada_funcao> ::= Identificador<parametro_chamada>
 <parametro_chamada> ::= '('<conteudo_param_chamada>')' | '()'
-<conteudo_param_chamada> ::= <id_num><lista_param_chamada> | <lambda>
-<lista_param_chamada> ::= ','<conteudo_param_chamada>
+<conteudo_param_chamada> ::= <exp_arit><lista_param_chamada> 
+<lista_param_chamada> ::= ','<conteudo_param_chamada> | <lambda>
 
 !Expressão aritmética
 <exp_arit> ::= <mulexp_arit> '+' <exp_arit> | <mulexp_arit> '-' <exp_arit> | <mulexp_arit>
 <mulexp_arit> ::= <rootexp_arit> '*' <mulexp_arit> | <rootexp_arit> '/' <mulexp_arit> | <rootexp_arit>
-<rootexp_arit> ::= '('<exp_arit>')' | <id_num>
+<rootexp_arit> ::= '('<exp_arit>')' | <id_num> | <chamada_funcao>
 
 !Expressões relacionais
 <exp_relacional> ::= <id_num> '=' <id_num> | <id_num> '>' <id_num> | <id_num> '<' <id_num> | <id_num> '<>' <id_num> | <id_num> '>=' <id_num> | <id_num> '<=' <id_num> | '('<exp_relacional>')'
