@@ -10,12 +10,12 @@ var
 
 programa
   inicio
-    valor = conta();;
+    valor = conta();
     valor = valor / 5;
     escreva(valor);
   fim
 
-funcao conta()
+funcao inteiro conta()
   inicio
    var inteiro conta;  
    conta = 0;

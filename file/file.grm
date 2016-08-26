@@ -71,7 +71,7 @@ Caractere = '' {Chars} ''
 <exp_cmd_logico> ::= <exp_relacional> | <exp_logica>
 
 !Comando leia
-<comando_leia> ::= 'leia''('<conteudo_leia>')'
+<comando_leia> ::= 'leia('<conteudo_leia>');'
 <conteudo_leia> ::= Identificador<lista_leia>
 <lista_leia> ::= ','<conteudo_leia> | <lambda>
 
@@ -87,15 +87,17 @@ Caractere = '' {Chars} ''
 <id_num> ::= Identificador | Numero
 
 !Função
-<funcao> ::= 'funcao'<tipo> Identificador '('<conteudo_parametro>')'<bloco>
+<funcao> ::= 'funcao'<tipo> Identificador<parametro_funcao><bloco>
 <tipo> ::= 'inteiro' | 'real' | 'booleano' | <lambda>
+<parametro_funcao> ::= '('<conteudo_parametro>')' | '()'
 <conteudo_parametro> ::= <tipo>Identificador<lista_parametro> | <lambda>
-<lista_parametro> ::= ','<conteudo_parametro> | <lambda>
+<lista_parametro> ::= ','<conteudo_parametro>
 
 !Chamada de Função
-<chamada_funcao> ::= Identificador'('<conteudo_chamada>');'
-<conteudo_chamada> ::= <id_num><lista_chamada> | <lambda>
-<lista_chamada> ::= ','<conteudo_chamada> | <lambda>
+<chamada_funcao> ::= Identificador<parametro_chamada>
+<parametro_chamada> ::= '('<conteudo_param_chamada>')' | '()'
+<conteudo_param_chamada> ::= <id_num><lista_param_chamada> | <lambda>
+<lista_param_chamada> ::= ','<conteudo_param_chamada>
 
 !Expressão aritmética
 <exp_arit> ::= <mulexp_arit> '+' <exp_arit> | <mulexp_arit> '-' <exp_arit> | <mulexp_arit>
