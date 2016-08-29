@@ -1,0 +1,24 @@
+var
+  inicio
+    inteiro i;
+  fim
+
+programa
+  inicio
+  
+	i = 0;
+    
+    enquanto(((i > 0) e (i < 16)) ou (i == 50)) faca
+      inicio
+        var inteiro val;
+        val = fib(i);
+        escreva(val);
+        i=i+1;
+      fim
+  fim
+
+funcao inteiro soma(inteiro int)
+  inicio
+    var inteiro sum;
+    sum = sum + int;	
+  fim
