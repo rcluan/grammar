@@ -104,9 +104,9 @@ Caractere = '' {Chars} ''
 <rootexp_arit> ::= '('<exp_arit>')' | <id_num> | <chamada_funcao>
 
 !Expressões relacionais
-<exp_relacional> ::= <id_num> '=' <id_num> | <id_num> '>' <id_num> | <id_num> '<' <id_num> | <id_num> '<>' <id_num> | <id_num> '>=' <id_num> | <id_num> '<=' <id_num> | '('<exp_relacional>')'
+<exp_relacional> ::= <id_num> '=' <id_num> | <id_num> '>' <id_num> | <id_num> '<' <id_num> | <id_num> '<>' <id_num> | <id_num> '>=' <id_num> | <id_num> '<=' <id_num>
 
 !Expressões lógicas
-<exp_logica> ::= 'nao'<exp_relacional> | <exp_relacional><exp_logica_ext>
-<exp_logica_ext> ::= 'e' <exp_relacional> | 'ou' <exp_relacional> | <lambda>
-
+<exp_logica> ::= <rootexp_logica> 'e' <exp_logica> | <rootexp_logica> 'ou' <exp_logica> | <nao_exp_logica>
+<nao_exp_logica> ::= 'nao'<rootexp_logica> | <rootexp_logica>
+<rootexp_logica> ::=  <exp_relacional> | '('<exp_logica>')'
