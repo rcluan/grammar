@@ -52,8 +52,11 @@ Caractere = '' {Chars} ''
 <variavel> ::= 'var'<tipo_variavel><declaracao_var>';'
 
 !Vetor
-<vetor> ::=  '(' <valor_atribuicao> <lista_vetor>')' | <lambda>
-<lista_vetor> ::= ',' <valor_atribuicao> | <lambda>
+<vetor> ::=  '<<<' <id_num> <lista_vetor>'>>>' | <lambda>
+<lista_vetor> ::= ',' <id_num> | <lambda>
+
+!Chamada vetor
+<chamada_vetor> ::= Identificador'<<'<id_num><lista_vetor>'>>'
 
 !Programa
 <programa> ::= 'programa'<bloco>
@@ -101,7 +104,7 @@ Caractere = '' {Chars} ''
 !Expressão aritmética
 <exp_arit> ::= <mulexp_arit> '+' <exp_arit> | <mulexp_arit> '-' <exp_arit> | <mulexp_arit>
 <mulexp_arit> ::= <rootexp_arit> '*' <mulexp_arit> | <rootexp_arit> '/' <mulexp_arit> | <rootexp_arit>
-<rootexp_arit> ::= '('<exp_arit>')' | <id_num> | <chamada_funcao>
+<rootexp_arit> ::= '('<exp_arit>')' | <id_num> | <chamada_funcao> | <chamada_vetor>
 
 !Expressões relacionais
 <exp_relacional> ::= <id_num> '=' <id_num> | <id_num> '>' <id_num> | <id_num> '<' <id_num> | <id_num> '<>' <id_num> | <id_num> '>=' <id_num> | <id_num> '<=' <id_num>
