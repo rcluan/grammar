@@ -1,0 +1,5 @@
+const
+ inicio
+  real PI=3.14;
+  inteiro CYLINDERS=100, TEMP_HIGH_MAX=45, TEMP_LOW_MIN=10;
+ fim
