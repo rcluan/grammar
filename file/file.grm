@@ -28,7 +28,7 @@ Caractere = '' {Chars} ''
 
 ! The grammar starts below
 
-<lambda> ::= 
+<lambda> ::=
 
 !Estrutura do arquivo
 <arquivo> ::= <constantes> <var_global> <programa> <funcao>
@@ -37,79 +37,83 @@ Caractere = '' {Chars} ''
 <tipo_variavel> ::= 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 
 !Constantes
-<constantes> ::=  'const' 'inicio' <bloco_constantes> 'fim' | <lambda>
-<bloco_constantes> ::=  <tipo_variavel> <declaracao_const> ';'<bloco_constantes> | <lambda>
+<constantes> ::=  'const'  'inicio' <bloco_constantes>  'fim'  | <lambda>
+<bloco_constantes> ::=  <tipo_variavel> <declaracao_const> | <lambda>
 <declaracao_const> ::= Identificador <vetor> '=' <valor_atribuicao> <lista_declr_const>
-<lista_declr_const> ::= ',' <declaracao_const> |  <lambda>
+<lista_declr_const> ::= ',' <declaracao_const> |   ';' <bloco_constantes> | <lambda>
 
 !Variáveis Globais
-<var_global> ::=  'var' 'inicio'<bloco_variaveis> 'fim' | <lambda>
-<bloco_variaveis> ::=   <tipo_variavel> <declaracao_var> ';' <bloco_variaveis> | <lambda>
+<var_global> ::=  'var'  'inicio' <bloco_variaveis>  'fim'  | <lambda>
+<bloco_variaveis> ::=   <tipo_variavel> <declaracao_var> | <lambda>
 <declaracao_var> ::= Identificador <vetor> <lista_declr_var>
-<lista_declr_var> ::= ',' <declaracao_var> | <lambda>
+<lista_declr_var> ::= ','  <declaracao_var> |  ';'  <bloco_variaveis> | <lambda>
 
 !Variáveis
-<variavel> ::= 'var'<tipo_variavel><declaracao_var>';'
+<variavel> ::= 'var' <tipo_variavel><declaracao_var>
 
 !Vetor
 <vetor> ::=  '<<<' <id_num> <lista_vetor>'>>>' | <lambda>
 <lista_vetor> ::= ',' <id_num> | <lambda>
 
 !Chamada vetor
-<chamada_vetor> ::= Identificador'<<'<id_num><lista_vetor>'>>'
+<chamada_vetor> ::= Identificador '<<' <id_num><lista_vetor> '>>'
 
 !Programa
-<programa> ::= 'programa'<bloco>
+<programa> ::= 'programa' <bloco>
 
 !Comando escreva
-<comando_escr> ::= 'escreva''('<conteudo_escreva>');'
-<conteudo_escreva> ::= Cadeia<lista_escr> | Caractere<lista_escr> | <exp_arit><lista_escr>
-<lista_escr> ::= ','<conteudo_escreva> | <lambda>
+<comando_escr> ::= 'escreva' '('<conteudo_escreva> ')' ';'
+<conteudo_escreva> ::= Cadeia <lista_escr> | Caractere <lista_escr> | <exp_arit> <lista_escr>
+<lista_escr> ::= ','  <conteudo_escreva> | <lambda>
 
 !Comando lógico (se..entao..senao, enquanto)
 <comando_logico> ::= <comando_se> | <comando_enquanto>
-<comando_se> ::= 'se''('<exp_logica>')''entao'<bloco><comando_senao>
-<comando_senao> ::= 'senao'<bloco> | <lambda>
-<comando_enquanto> ::= 'enquanto''('<exp_logica>')''faca'<bloco>
+<comando_se> ::= 'se' '('<exp_logica> ')' 'entao' <bloco> <comando_senao>
+<comando_senao> ::= 'senao' <bloco> | <lambda>
+<comando_enquanto> ::= 'enquanto' '(' <exp_logica> ')' 'faca' <bloco>
 
 !Comando leia
-<comando_leia> ::= 'leia('<conteudo_leia>');'
-<conteudo_leia> ::= Identificador<lista_leia>
-<lista_leia> ::= ','<conteudo_leia> | <lambda>
+<comando_leia> ::= 'leia' '(' <conteudo_leia> ')' ';'
+<conteudo_leia> ::= Identificador <lista_leia>
+<lista_leia> ::= ',' <conteudo_leia> | <lambda>
 
 !Atribuição
-<atribuicao> ::= Identificador '=' <valor_atribuicao>';'
+<atribuicao> ::= Identificador '=' <valor_atribuicao> ';'
 <valor_atribuicao> ::= Cadeia | Caractere | <exp_arit>
 
 !Bloco
-<bloco> ::= 'inicio'<conteudo_bloco>'fim'
-<conteudo_bloco> ::= <variavel><conteudo_bloco> | <comando_logico><conteudo_bloco> | <comando_escr><conteudo_bloco> | <comando_leia><conteudo_bloco> | <chamada_funcao><conteudo_bloco> | <atribuicao><conteudo_bloco> | <lambda>
+<bloco> ::= 'inicio' <conteudo_bloco> 'fim'
+<conteudo_bloco> ::= <variavel> <conteudo_bloco> | <comando_logico> <conteudo_bloco> | <comando_escr> <conteudo_bloco> | <comando_leia> <conteudo_bloco> | <chamada_funcao> <conteudo_bloco> | <atribuicao> <conteudo_bloco> | <lambda>
 
 !Identificador ou Numero
 <id_num> ::= Identificador | Numero
 
 !Função
-<funcao> ::= 'funcao'<tipo> Identificador<parametro_funcao><bloco>
+<funcao> ::= 'funcao' <tipo> Identificador <parametro_funcao> <bloco>
 <tipo> ::= 'inteiro' | 'real' | 'booleano' | <lambda>
-<parametro_funcao> ::= '('<conteudo_parametro>')' | '()'
-<conteudo_parametro> ::= <tipo>Identificador<lista_parametro>
-<lista_parametro> ::= ','<conteudo_parametro> | <lambda>
+<parametro_funcao> ::= '(' <conteudo_parametro> ')'
+<conteudo_parametro> ::= <tipo>Identificador<lista_parametro> | <lambda>
+<lista_parametro> ::= ',' <conteudo_parametro> | <lambda>
 
 !Chamada de Função
 <chamada_funcao> ::= Identificador<parametro_chamada>
-<parametro_chamada> ::= '('<conteudo_param_chamada>')' | '()'
-<conteudo_param_chamada> ::= <exp_arit><lista_param_chamada> 
-<lista_param_chamada> ::= ','<conteudo_param_chamada> | <lambda>
+<parametro_chamada> ::= '(' <conteudo_param_chamada> ')'
+<conteudo_param_chamada> ::= <exp_arit> <lista_param_chamada> | <lambda>
+<lista_param_chamada> ::= ',' <conteudo_param_chamada> | <lambda>
 
 !Expressão aritmética
-<exp_arit> ::= <mulexp_arit> '+' <exp_arit> | <mulexp_arit> '-' <exp_arit> | <mulexp_arit>
-<mulexp_arit> ::= <rootexp_arit> '*' <mulexp_arit> | <rootexp_arit> '/' <mulexp_arit> | <rootexp_arit>
-<rootexp_arit> ::= '('<exp_arit>')' | <id_num> | <chamada_funcao> | <chamada_vetor>
+<exp_arit> ::=  <mulexp_arit> <aux>
+<aux> ::=  '+' <exp_arit> | '-' <exp_arit> | <lambda>
+<mulexp_arit> ::= <rootexp_arit> <aux2>
+<aux2> ::=  '*' <mulexp_arit> | '/' <mulexp_arit> | <lambda>
+<rootexp_arit> ::= '(' <exp_arit> ')' | <id_num> | <chamada_funcao> | <chamada_vetor>
 
 !Expressões relacionais
-<exp_relacional> ::= <id_num> '=' <id_num> | <id_num> '>' <id_num> | <id_num> '<' <id_num> | <id_num> '<>' <id_num> | <id_num> '>=' <id_num> | <id_num> '<=' <id_num>
+<exp_relacional> ::= <id_num> <aux3>
+<aux3> ::=  '=' <id_num> |  '>' <id_num> | '<' <id_num> |  '<>' <id_num> |  '>=' <id_num> |  '<=' <id_num>
 
 !Expressões lógicas
-<exp_logica> ::= <rootexp_logica> 'e' <exp_logica> | <rootexp_logica> 'ou' <exp_logica> | <nao_exp_logica>
-<nao_exp_logica> ::= 'nao'<rootexp_logica> | <rootexp_logica>
-<rootexp_logica> ::=  <exp_relacional> | '('<exp_logica>')'
+<exp_logica> ::= <rootexp_logica> <aux4> | <nao_exp_logica>
+<aux4> ::= 'e' <exp_logica> |  'ou' <exp_logica>
+<nao_exp_logica> ::= 'nao' <rootexp_logica> | <rootexp_logica>
+<rootexp_logica> ::=  <exp_relacional> | '('<exp_logica> ')'

@@ -9,7 +9,7 @@ programa
     enquanto(i < 16) faca
       inicio
         var inteiro val;
-        val = fib(i) ;
+        val = fib(i);
         escreva(val);
         i=i+1;
       fim
@@ -26,6 +26,8 @@ funcao inteiro fib(inteiro n)
       fim
     senao
       inicio
-        fib = fib(n-1) + fib(n-2) ;
+        fib = fib(n-1) + fib(n-2);
       fim
   fim
+
+  
