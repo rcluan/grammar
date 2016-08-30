@@ -1,7 +1,7 @@
-"Name" = 'File Grammar'
+﻿"Name" = 'File Grammar'
 "Author"   = 'MI Processamento de Linguagens - T03'
 "Version"  = '0.1'
-"About"	= ''
+"About" = ''
 
 "Start Symbol" = <arquivo>
 "Case Sensitive" = True
@@ -11,13 +11,13 @@
 ! -------------------------------------------------
 
 {String Chars} = {Printable} + {HT} - ["]
-{Chars} = {Printable} + {HT} - ['']          	 
+{Chars} = {Printable} + {HT} - ['']              
 
 ! -------------------------------------------------
 ! Terminals
 ! -------------------------------------------------
 
-Identificador	= {Letter}({Letter}|{AlphaNumeric}|_)*
+Identificador   = {Letter}({Letter}|{AlphaNumeric}|_)*
 Cadeia = '"' {String Chars}* '"'
 Numero = {Number} + ('.'{Number} + )?
 Caractere = '' {Chars} ''
@@ -83,7 +83,7 @@ Caractere = '' {Chars} ''
 
 !Bloco
 <bloco> ::= 'inicio' <conteudo_bloco> 'fim'
-<conteudo_bloco> ::= <variavel> <conteudo_bloco> | <comando_logico> <conteudo_bloco> | <comando_escr> <conteudo_bloco> | <comando_leia> <conteudo_bloco> | <chamada_funcao> <conteudo_bloco> | <atribuicao> <conteudo_bloco> | <lambda>
+<conteudo_bloco> ::= <variavel> <conteudo_bloco> | <comando_logico> <conteudo_bloco> | <comando_escr> <conteudo_bloco> | <comando_leia> <conteudo_bloco> | <chamada_funcao_fechada> <conteudo_bloco> | <atribuicao> <conteudo_bloco> | <lambda>
 
 !Identificador ou Numero
 <id_num> ::= Identificador | Numero
@@ -96,10 +96,13 @@ Caractere = '' {Chars} ''
 <lista_parametro> ::= ',' <conteudo_parametro> | <lambda>
 
 !Chamada de Função
-<chamada_funcao> ::= Identificador<parametro_chamada>
+<chamada_funcao_fechada> ::= Identificador<parametro_chamada>
 <parametro_chamada> ::= '(' <conteudo_param_chamada> ')' ';'
 <conteudo_param_chamada> ::= <exp_arit> <lista_param_chamada> | <lambda>
 <lista_param_chamada> ::= ',' <conteudo_param_chamada> | <lambda>
+                       
+<chamada_funcao> ::= Identificador<parametro_chamada_aberta>
+<parametro_chamada_aberta> ::= '(' <conteudo_param_chamada> ')'
 
 !Expressão aritmética
 <exp_arit> ::=  <mulexp_arit> <aux>
