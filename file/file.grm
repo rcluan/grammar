@@ -97,7 +97,7 @@ Caractere = '' {Chars} ''
 
 !Chamada de Função
 <chamada_funcao> ::= Identificador<parametro_chamada>
-<parametro_chamada> ::= '(' <conteudo_param_chamada> ')'
+<parametro_chamada> ::= '(' <conteudo_param_chamada> ')' ';'
 <conteudo_param_chamada> ::= <exp_arit> <lista_param_chamada> | <lambda>
 <lista_param_chamada> ::= ',' <conteudo_param_chamada> | <lambda>
 
