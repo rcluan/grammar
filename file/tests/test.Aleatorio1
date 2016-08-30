@@ -1,0 +1,25 @@
+var
+  inicio
+    inteiro i;
+  fim
+
+programa
+  inicio
+	i = 1;
+    var inteiro u;
+	u = 0;
+	
+    enquanto(i > 0 e i < 16) faca
+      inicio
+		soma1(i);		
+      fim
+	  
+	  escreva(soma1);
+  fim
+
+funcao inteiro soma1(inteiro int)
+  inicio
+    soma1 = int + 1;
+  fim
+
+  
