@@ -31,7 +31,8 @@ Caractere = '' {Chars} ''
 <lambda> ::=
 
 !Estrutura do arquivo
-<arquivo> ::= <constantes> <var_global> <programa> <funcao>
+<arquivo> ::= <constantes> <var_global> <programa> <aux_arquivo_funcao>
+<aux_arquivo_funcao> ::= <funcao><aux_arquivo_funcao> | <lambda>
 
 !Tipo variável
 <tipo_variavel> ::= 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
@@ -52,7 +53,7 @@ Caractere = '' {Chars} ''
 <variavel> ::= 'var' <tipo_variavel><declaracao_var>
 
 !Vetor
-<vetor> ::=  '<<<' <id_num> <lista_vetor>'>>>' | <lambda>
+<vetor> ::=  '<<' <id_num> <lista_vetor>'>>' | <lambda>
 <lista_vetor> ::= ',' <id_num> | <lambda>
 
 !Chamada vetor
