@@ -1,0 +1,38 @@
+var
+  inicio
+    real n1, n2, n3, media, final;
+  fim
+
+programa
+  inicio    
+   escreva("Digite a primeira nota:");
+   leia(n1);
+   escreva("Digite a segunda nota:");
+   leia(n2);
+   escreva("Digite a terceira nota:");
+   leia(n3);
+
+   calcula_media(n1, n2, n3);
+   
+   escreva(media);
+   se (media >= 7) entao
+    inicio
+     escreva("Nao está na final!!!");
+    fim
+   senao
+    inicio
+     calcula_final(media);
+     escreva("Voce precisa tirar:");
+     escreva(final);
+    fim
+  fim
+
+funcao real calcula_media(real n1, real n2, real n3)
+  inicio
+   media = (n1+n2+n3)/3;
+  fim
+
+funcao real calcula_final(real media)
+  inicio
+   final = (0.6*media)/0.4;
+  fim  
