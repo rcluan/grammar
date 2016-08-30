@@ -12,10 +12,9 @@ var
 programa
   inicio
     i = 0;
+    j = 1;
     lista = <<99,50,4,5,6,1,2,3,10,12>>;
-    valor = conta();
-    valor = (valor / 5)*10;
-    escreva(valor);
+    bubblesort();
   fim
 
 funcao bubblesort()
@@ -35,5 +34,6 @@ funcao bubblesort()
                 lista<<j>> = temp;
               fim
           fim
+        j = i +1;
       fim
   fim
