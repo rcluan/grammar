@@ -54,10 +54,7 @@ Caractere = '' {Chars} ''
 
 !Vetor
 <vetor> ::=  '<<' <id_num> <lista_vetor>'>>' | <lambda>
-<lista_vetor> ::= ',' <id_num> | <lambda>
-
-!Chamada vetor
-<chamada_vetor> ::= Identificador '<<' <id_num><lista_vetor> '>>'
+<lista_vetor> ::= ',' <id_num><lista_vetor> | <lambda>
 
 !Programa
 <programa> ::= 'programa' <bloco>
@@ -79,15 +76,15 @@ Caractere = '' {Chars} ''
 <lista_leia> ::= ',' <conteudo_leia> | <lambda>
 
 !Atribuição
-<atribuicao> ::= Identificador '=' <valor_atribuicao> ';'
-<valor_atribuicao> ::= Cadeia | Caractere | <exp_arit>
+<atribuicao> ::= Identificador<vetor> '=' <valor_atribuicao> ';'
+<valor_atribuicao> ::= Cadeia | Caractere | <exp_arit> | <vetor>
 
 !Bloco
 <bloco> ::= 'inicio' <conteudo_bloco> 'fim'
 <conteudo_bloco> ::= <variavel> <conteudo_bloco> | <comando_logico> <conteudo_bloco> | <comando_escr> <conteudo_bloco> | <comando_leia> <conteudo_bloco> | <chamada_funcao_fechada> <conteudo_bloco> | <atribuicao> <conteudo_bloco> | <lambda>
 
 !Identificador ou Numero
-<id_num> ::= Identificador | Numero
+<id_num> ::= Identificador<vetor> | Numero
 
 !Função
 <funcao> ::= 'funcao' <tipo> Identificador <parametro_funcao> <bloco>
@@ -110,7 +107,7 @@ Caractere = '' {Chars} ''
 <aux> ::=  '+' <exp_arit> | '-' <exp_arit> | <lambda>
 <mulexp_arit> ::= <rootexp_arit> <aux2>
 <aux2> ::=  '*' <mulexp_arit> | '/' <mulexp_arit> | <lambda>
-<rootexp_arit> ::= '(' <exp_arit> ')' | <id_num> | <chamada_funcao> | <chamada_vetor>
+<rootexp_arit> ::= '(' <exp_arit> ')' | <id_num> | <chamada_funcao>
 
 !Expressões relacionais
 <exp_relacional> ::= <id_num> <aux3>

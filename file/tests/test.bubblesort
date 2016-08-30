@@ -1,28 +1,39 @@
 const
   inicio
-    inteiro max = 20;
+    inteiro max = 10;
   fim
 
 var
   inicio
-    real valor;
+    real lista<<max>>;
+    inteiro i, j;
   fim
 
 programa
   inicio
+    i = 0;
+    lista = <<99,50,4,5,6,1,2,3,10,12>>;
     valor = conta();
     valor = (valor / 5)*10;
     escreva(valor);
   fim
 
-funcao inteiro conta()
+funcao bubblesort()
   inicio
-   var inteiro conta;  
-   conta = 0;
-
-   enquanto (conta < max) faca
-     inicio
-      escreva (conta+1);
-      conta = i*2;
-     fim
+    var inteiro max_i, max_j;
+    max_i = max-2;
+    max_j = max-1;
+    enquanto(i < max_i) faca
+      inicio
+        enquanto(j < max_j) faca
+          inicio
+            se(lista<<i>> > lista<<j>>) entao
+              inicio
+                var real temp;
+                temp = lista<<i>>;
+                lista<<i>> = lista<<j>>;
+                lista<<j>> = temp;
+              fim
+          fim
+      fim
   fim
