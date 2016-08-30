@@ -18,9 +18,9 @@
 ! -------------------------------------------------
 
 Identificador   = {Letter}({Letter}|{AlphaNumeric}|_)*
-Cadeia = '"' {String Chars}* '"'
+String = '"' {String Chars}* '"'
 Numero = {Number} + ('.'{Number} + )?
-Caractere = '' {Chars} ''
+Char = '' {Chars} ''
 
 ! -------------------------------------------------
 ! Rules

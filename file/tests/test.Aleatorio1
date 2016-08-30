@@ -1,6 +1,8 @@
 var
   inicio
     inteiro i;
+    cadeia a;
+    caractere b;
   fim
 
 programa
