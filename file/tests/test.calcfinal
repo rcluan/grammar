@@ -17,7 +17,7 @@ programa
    escreva(media);
    se (media >= 7) entao
     inicio
-     escreva("Nao está na final!!!");
+     escreva("Nao esta na final!!!");
     fim
    senao
     inicio
