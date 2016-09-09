@@ -1,0 +1,192 @@
+﻿"Name" = 'File Grammar'
+"Author"   = 'MI Processamento de Linguagens - T03'
+"Version"  = '0.1'
+"About" = ''
+
+"Start Symbol" = <ini_arquivo>
+"Case Sensitive" = True
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+{String Chars} = {Printable} + {HT} - ["]
+{Chars} = {Printable} + {HT} - ['']              
+
+! -------------------------------------------------
+! Terminals
+! -------------------------------------------------
+
+Identificador = {Letter}({Letter}|{AlphaNumeric}|_)*
+Numero = {Number} + ('.'{Number} + )?
+String = '"' {String Chars}* '"'
+Char = '' {Chars} ''
+Bool = 'verdadeiro' | 'falso'
+Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
+! -------------------------------------------------
+! Rules
+! -------------------------------------------------
+
+! The grammar starts below
+
+!Terminals masked as production to satisfy Chomsky rule
+
+<lambda> ::=
+<ponto_virgula_del> ::= ';'
+<virgula_del> ::= ','
+<funcao_pr> ::= 'funcao'
+<const_pr> ::= 'const'
+<var_pr> ::= 'var'
+<igual_del> ::= '='
+<programa_pr> ::= 'programa'
+<string> ::= String
+<char> ::= Char
+<tipo_pr> ::= Tipo
+<identificador> ::= Identificador
+<numero> ::= Numero
+<inicio_pr> ::= 'inicio'
+<escreva_pr> ::= 'escreva'
+<leia_pr> ::= 'leia'
+<se_pr> ::= 'se'
+<entao_pr> ::= 'entao'
+<senao_pr> ::= 'senao'
+<enquanto_pr> ::= 'enquanto'
+<faca_pr> ::= 'faca'
+<e_pr> ::= 'e'
+<ou_pr> ::= 'ou'
+<nao_pr> ::= 'nao'
+<abre_parenteses_del> ::= '('
+<fecha_parenteses_del> ::= ')'
+<maior_del> ::= '>'
+<menor_del> ::= '<'
+<dif_del> ::= '<>'
+<maior_ig_del> ::= '>='
+<menor_ig_del> ::= '<='
+<soma_op> ::= '+'
+<sub_op> ::= '-'
+<mult_op> ::= '*'
+<div_op> ::= '/'
+
+!Estrutura do arquivo
+<ini_arquivo> ::= <constantes_varglobal> <programa_funcoes> | <var_global> <programa_funcoes> | <programa> <funcoes> | <programa_pr><bloco> | <constantes> <programa_funcoes> | <constantes> <programa> | <constantes_varglobal> <programa> | <var_global> <programa> | <lambda>
+
+<arquivo> ::= <constantes_varglobal> <programa_funcoes> | <var_global> <programa_funcoes> | <programa> <funcoes> | <programa_pr><bloco> | <constantes> <programa_funcoes> | <constantes> <programa> | <constantes_varglobal> <programa> | <var_global> <programa>
+<constantes_varglobal> ::= <constantes> <var_global>
+<programa_funcoes> ::= <programa> <funcoes>
+
+<constantes> ::= <declaracao_constante><constantes> | <const_pr> <const_linha>
+<var_global> ::= <declaracao_variavel><var_global> | <var_pr> <var_linha>
+<funcoes> ::= <funcao><funcoes> | <funcao_pr> <termo_funcao>
+
+!Constantes
+<declaracao_constante> ::=  <const_pr> <const_linha>
+<const_linha> ::=  <tipo_pr> <conteudo_const>
+<conteudo_const> ::= <identificador> <termo_conteudo_const>
+<termo_conteudo_const> ::= <vetor_igual> <valoratribuicao_lista>  | <igual_del> <valoratribuicao_lista>
+<vetor_igual> ::= <vetor> <igual_del>
+<valoratribuicao_lista> ::= <valor_atribuicao> <lista_constante>
+<lista_constante> ::= <virgula_del> <conteudo_const> | ';'
+
+!Variável
+<declaracao_variavel> ::= <var_pr> <var_linha>
+<var_linha> ::= <tipo_pr> <conteudo_variavel>
+<conteudo_variavel> ::= <identificador> <termo_conteudo_var>
+<termo_conteudo_var> ::= <vetor><lista_variavel> | <lista_variavel>
+<lista_variavel> ::= <virgula_del> <conteudo_variavel> | ';'
+
+!Vetor
+<vetor> ::=  <menor_del> <termo_vetor>
+<termo_vetor> ::= <menor_del> <conteudo_vetor>
+<conteudo_vetor> ::= <identificador> <lista_vetor> | <numero> <lista_vetor>
+<lista_vetor> ::= <virgula_del> <conteudo_vetor> | <maior_del><maior_del>
+
+!Programa
+<programa> ::= <programa_pr> <bloco>
+
+!Bloco
+<bloco> ::= <inicio_pr> <conteudo_bloco>
+<conteudo_bloco> ::= <declaracao_variavel> <conteudo_bloco> | <comando_logico> <conteudo_bloco> | <comando_escr> <conteudo_bloco> | <comando_leia> <conteudo_bloco> | <chamada_funcao> <conteudo_bloco> | <atribuicao> <conteudo_bloco> | 'fim'
+
+!Comando escreva
+<comando_escr> ::= <escr_parenteses> <conteudo_escreva>
+<escr_parenteses> ::= <escreva_pr> <abre_parenteses_del> 
+<conteudo_escreva> ::= <string> <lista_escr> | <char> <lista_escr> | <exp_arit> <lista_escr>
+<lista_escr> ::= <virgula_del> <conteudo_escreva> | <fecha_parenteses_del> <ponto_virgula_del>
+
+!Comando leia
+<comando_leia> ::= <leia_parenteses> <conteudo_leia>
+<leia_parenteses> ::= <leia_pr> <abre_parenteses_del>
+<conteudo_leia> ::= <identificador> <lista_leia>
+<lista_leia> ::= <virgula_del> <conteudo_leia> | <fecha_parenteses_del> <ponto_virgula_del>
+
+!Comando lógico (se..entao..senao, enquanto)
+<comando_logico> ::= <se_exp_logica> <entao_bloco_senao> | <se_exp_logica> <entao_bloco> | <comando_enquanto> <exp_logica_faca_bloco>
+
+!Comando se/senao
+<se_parenteses> ::= <se_pr> <abre_parenteses_del>
+<exp_logica_parenteses> ::= <exp_logica> <fecha_parenteses_del>
+<se_exp_logica> ::= <se_parenteses> <exp_logica_parenteses>
+<entao_bloco> ::= <entao_pr> <bloco>
+<entao_bloco_senao> ::= <entao_bloco> <comando_senao>
+<comando_senao> ::= 'senao' <bloco>
+
+!Comando enquanto
+<comando_enquanto> ::= <enquanto_pr> <abre_parenteses_del>
+<faca_bloco> ::= <faca_pr> <bloco>
+<exp_logica_faca_bloco> ::= <exp_logica_parenteses> <faca_bloco>
+
+!Atribuição
+<atribuicao> ::= <identificador> <termo_atribuicao>
+<termo_atribuicao> ::= <vetor><conteudo_atribuicao> | <igual_del> <direita_atribuicao>
+<conteudo_atribuicao> ::= <igual_del> <direita_atribuicao>
+<direita_atribuicao> ::= <valor_atribuicao> <ponto_virgula_del>
+<valor_atribuicao> ::= String | Char | Bool | <mulexp_arit> <termo_exp_arit> | <rootexp_arit> <termo_mulexp_arit> | <parenteses_exp_arit> <fecha_parenteses_del> | Identificador | Numero | <identificador><parametro_chamada_aberta> | <identificador><vetor> | <menor_del> <termo_vetor>
+
+!Função
+<funcao> ::= <funcao_pr> <termo_funcao>
+<termo_funcao> ::= <tipo_identificador> <parametro_func_bloco> | <identificador> <parametro_func_bloco>
+<tipo_identificador> ::= <tipo_pr> <identificador>
+<parametro_func_bloco> ::= <parametro_funcao> <bloco>
+<parametro_funcao> ::= <abre_parenteses_del> <termo_parametro_funcao>
+<termo_parametro_funcao> ::= <tipo_identificador><lista_parametro> | ')'
+<conteudo_parametro> ::= <tipo_identificador><lista_parametro>
+<lista_parametro> ::= <virgula_del> <conteudo_parametro> | ')'
+
+!Chamada de Função
+<chamada_funcao> ::= <identificador><parametro_chamada>
+<parametro_chamada> ::= <parenteses_conteudo_param_chamada> <parenteses_ponto_virgula> | <abre_fecha_parenteses> <ponto_virgula_del>
+<parenteses_ponto_virgula> ::= <fecha_parenteses_del> <ponto_virgula_del>
+<parenteses_conteudo_param_chamada> ::= <abre_parenteses_del> <conteudo_param_chamada>
+<abre_fecha_parenteses> ::= <abre_parenteses_del> <fecha_parenteses_del>
+<conteudo_param_chamada> ::= <exp_arit> <lista_param_chamada> | <mulexp_arit> <termo_exp_arit> | <rootexp_arit> <termo_mulexp_arit> | <parenteses_exp_arit> <fecha_parenteses_del> | Identificador | Numero | <identificador><parametro_chamada_aberta>
+<lista_param_chamada> ::= <virgula_del> <conteudo_param_chamada>
+                       
+<parametro_chamada_aberta> ::= <parenteses_conteudo_param_chamada> <fecha_parenteses_del> | <abre_parenteses_del> <fecha_parenteses_del>
+
+!Expressão aritmética
+<exp_arit> ::=  <mulexp_arit> <termo_exp_arit> | <rootexp_arit> <termo_mulexp_arit> | <parenteses_exp_arit> <fecha_parenteses_del> | Identificador | Numero | <identificador><parametro_chamada_aberta>
+
+<termo_exp_arit> ::=  <soma_op> <exp_arit> | <sub_op> <exp_arit>
+
+<mulexp_arit> ::= <rootexp_arit> <termo_mulexp_arit> | <parenteses_exp_arit> <fecha_parenteses_del> | Identificador | Numero | <identificador><parametro_chamada_aberta>
+
+<termo_mulexp_arit> ::=  <mult_op> <mulexp_arit> | <div_op> <mulexp_arit>
+
+<rootexp_arit> ::= <parenteses_exp_arit> <fecha_parenteses_del> | Identificador | Numero | <identificador><parametro_chamada_aberta>
+
+<parenteses_exp_arit> ::= <abre_parenteses_del> <exp_arit>
+
+!Expressões relacionais
+<exp_relacional> ::= <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <identificador_vetor> <termo_exp_relacional>
+
+<termo_exp_relacional> ::=  <igual_del> <identificador> |  <maior_del> <identificador> | <menor_del> <identificador> |  <dif_del> <identificador> |  <maior_ig_del> <identificador> |  <menor_ig_del> <identificador> | <igual_del> <numero> |  <maior_del> <numero> | <menor_del> <numero> |  <dif_del> <numero> |  <maior_ig_del> <numero> |  <menor_ig_del> <numero> | <igual_del> <identificador_vetor> |  <maior_del> <identificador_vetor> | <menor_del> <identificador_vetor> |  <dif_del> <identificador_vetor> |  <maior_ig_del> <identificador_vetor> |  <menor_ig_del><identificador_vetor>
+<identificador_vetor> ::= <identificador><vetor>
+
+!Expressões lógicas
+<exp_logica> ::= <rootexp_logica> <termo_exp_logica> | <nao_pr> <rootexp_logica> | <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <identificador_vetor> <termo_exp_relacional> | <parenteses_exp_logica> <fecha_parenteses_del>
+
+<termo_exp_logica> ::= <e_pr> <exp_logica> |  <ou_pr> <exp_logica>
+
+<rootexp_logica> ::=  <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <parenteses_exp_logica> <fecha_parenteses_del>
+
+<parenteses_exp_logica> ::= <abre_parenteses_del><exp_logica>

@@ -18,9 +18,11 @@
 ! -------------------------------------------------
 
 Identificador   = {Letter}({Letter}|{AlphaNumeric}|_)*
-String = '"' {String Chars}* '"'
 Numero = {Number} + ('.'{Number} + )?
+String = '"' {String Chars}* '"'
 Char = '' {Chars} ''
+Bool = 'verdadeiro' | 'falso'
+Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 
 ! -------------------------------------------------
 ! Rules
@@ -31,67 +33,74 @@ Char = '' {Chars} ''
 <lambda> ::=
 
 !Estrutura do arquivo
-<arquivo> ::= <constantes> <var_global> <programa> <aux_arquivo_funcao>
-<aux_arquivo_funcao> ::= <funcao><aux_arquivo_funcao> | <lambda>
+<arquivo> ::= <constantes> <var_global> <programa> <funcoes>
 
-!Tipo variável
-<tipo_variavel> ::= 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
+<constantes> ::= <declaracao_constante><constantes> | <lambda>
+<var_global> ::= <declaracao_variavel><var_global> | <lambda>
+<funcoes> ::= <funcao><funcoes> | <lambda>
 
 !Constantes
-<constantes> ::=  'const'  'inicio' <bloco_constantes>  'fim'  | <lambda>
-<bloco_constantes> ::=  <tipo_variavel> <declaracao_const> | <lambda>
-<declaracao_const> ::= Identificador <vetor> '=' <valor_atribuicao> <lista_declr_const>
-<lista_declr_const> ::= ',' <declaracao_const> |   ';' <bloco_constantes> | <lambda>
+<declaracao_constante> ::=  'const' <const_linha>
+<const_linha> ::=  Tipo <conteudo_const>
+<conteudo_const> ::= Identificador<termo_conteudo_const>
+<termo_conteudo_const> ::= <vetor> '=' <valor_atribuicao> <lista_constante> | '=' <valor_atribuicao> <lista_constante>
+<lista_constante> ::= ',' <conteudo_const> |   ';'
 
-!Variáveis Globais
-<var_global> ::=  'var'  'inicio' <bloco_variaveis>  'fim'  | <lambda>
-<bloco_variaveis> ::=   <tipo_variavel> <declaracao_var> | <lambda>
-<declaracao_var> ::= Identificador <vetor> <lista_declr_var>
-<lista_declr_var> ::= ','  <declaracao_var> |  ';'  <bloco_variaveis> | <lambda>
-
-!Variáveis
-<variavel> ::= 'var' <tipo_variavel><declaracao_var>
+!Variável
+<declaracao_variavel> ::= 'var' <var_linha>
+<var_linha> ::= Tipo <conteudo_variavel>
+<conteudo_variavel> ::= Identificador<termo_conteudo_var>
+<termo_conteudo_var> ::= <vetor><lista_variavel> | <lista_variavel>
+<lista_variavel> ::= ',' <conteudo_variavel> | ';'
 
 !Vetor
-<vetor> ::=  '<<' <id_num> <lista_vetor>'>>' | <lambda>
-<lista_vetor> ::= ',' <id_num><lista_vetor> | <lambda>
+<vetor> ::=  '<<' <id_num> <lista_vetor>
+<lista_vetor> ::= ',' <id_num><lista_vetor> | '>>'
 
 !Programa
 <programa> ::= 'programa' <bloco>
 
 !Comando escreva
-<comando_escr> ::= 'escreva' '('<conteudo_escreva> ')' ';'
-<conteudo_escreva> ::= Cadeia <lista_escr> | Caractere <lista_escr> | <exp_arit> <lista_escr>
-<lista_escr> ::= ','  <conteudo_escreva> | <lambda>
+<comando_escr> ::= 'escreva' '('<conteudo_escreva>
+<conteudo_escreva> ::= String <lista_escr> | Char <lista_escr> | <exp_arit> <lista_escr>
+<lista_escr> ::= ','  <conteudo_escreva> | ')' ';'
+
+!Comando leia
+<comando_leia> ::= 'leia' '(' <conteudo_leia>
+<conteudo_leia> ::= Identificador <lista_leia>
+<lista_leia> ::= ',' <conteudo_leia> | ')' ';'
 
 !Comando lógico (se..entao..senao, enquanto)
 <comando_logico> ::= <comando_se> | <comando_enquanto>
+
+!Comando se/senao
 <comando_se> ::= 'se' '('<exp_logica> ')' 'entao' <bloco> <comando_senao>
 <comando_senao> ::= 'senao' <bloco> | <lambda>
+
+!Comando enquanto
 <comando_enquanto> ::= 'enquanto' '(' <exp_logica> ')' 'faca' <bloco>
 
-!Comando leia
-<comando_leia> ::= 'leia' '(' <conteudo_leia> ')' ';'
-<conteudo_leia> ::= Identificador <lista_leia>
-<lista_leia> ::= ',' <conteudo_leia> | <lambda>
-
 !Atribuição
-<atribuicao> ::= Identificador<vetor> '=' <valor_atribuicao> ';'
-<valor_atribuicao> ::= Cadeia | Caractere | <exp_arit> | <vetor>
+<atribuicao> ::= Identificador<termo_atribuicao>
+<termo_atribuicao> ::= <vetor><conteudo_atribuicao> | <conteudo_atribuicao>
+<conteudo_atribuicao> ::= '=' <valor_atribuicao> ';'
+<valor_atribuicao> ::= String | Char | Bool | <exp_arit> | <vetor>
 
 !Bloco
-<bloco> ::= 'inicio' <conteudo_bloco> 'fim'
-<conteudo_bloco> ::= <variavel> <conteudo_bloco> | <comando_logico> <conteudo_bloco> | <comando_escr> <conteudo_bloco> | <comando_leia> <conteudo_bloco> | <chamada_funcao_fechada> <conteudo_bloco> | <atribuicao> <conteudo_bloco> | <lambda>
+<bloco> ::= 'inicio' <conteudo_bloco>
+<conteudo_bloco> ::= <declaracao_variavel> <conteudo_bloco> | <comando_logico> <conteudo_bloco> | <comando_escr> <conteudo_bloco> | <comando_leia> <conteudo_bloco> | <chamada_funcao_fechada> <conteudo_bloco> | <atribuicao> <conteudo_bloco> | 'fim'
 
 !Identificador ou Numero
-<id_num> ::= Identificador<vetor> | Numero
+<id_num> ::= Identificador<termo_id> | Numero
+<termo_id> ::= <vetor> | <lambda>
 
 !Função
-<funcao> ::= 'funcao' <tipo> Identificador <parametro_funcao> <bloco>
-<tipo> ::= 'inteiro' | 'real' | 'booleano' | <lambda>
-<parametro_funcao> ::= '(' <conteudo_parametro> ')'
-<conteudo_parametro> ::= <tipo>Identificador<lista_parametro> | <lambda>
-<lista_parametro> ::= ',' <conteudo_parametro> | <lambda>
+<funcao> ::= 'funcao' <termo_funcao>
+<termo_funcao> ::= Tipo Identificador <parametro_funcao> <bloco> | Identificador <parametro_funcao> <bloco>
+<parametro_funcao> ::= '('<termo_parametro_funcao>
+<termo_parametro_funcao> ::= <conteudo_parametro> | ')'
+<conteudo_parametro> ::= Tipo Identificador<lista_parametro>
+<lista_parametro> ::= ',' <conteudo_parametro> | ')'
 
 !Chamada de Função
 <chamada_funcao_fechada> ::= Identificador<parametro_chamada>
@@ -103,18 +112,18 @@ Char = '' {Chars} ''
 <parametro_chamada_aberta> ::= '(' <conteudo_param_chamada> ')'
 
 !Expressão aritmética
-<exp_arit> ::=  <mulexp_arit> <aux>
-<aux> ::=  '+' <exp_arit> | '-' <exp_arit> | <lambda>
-<mulexp_arit> ::= <rootexp_arit> <aux2>
-<aux2> ::=  '*' <mulexp_arit> | '/' <mulexp_arit> | <lambda>
+<exp_arit> ::=  <mulexp_arit> <termo_exp_arit>
+<termo_exp_arit> ::=  '+' <exp_arit> | '-' <exp_arit> | <lambda>
+<mulexp_arit> ::= <rootexp_arit> <termo_mulexp_arit>
+<termo_mulexp_arit> ::=  '*' <mulexp_arit> | '/' <mulexp_arit> | <lambda>
 <rootexp_arit> ::= '(' <exp_arit> ')' | <id_num> | <chamada_funcao>
 
 !Expressões relacionais
-<exp_relacional> ::= <id_num> <aux3>
-<aux3> ::=  '=' <id_num> |  '>' <id_num> | '<' <id_num> |  '<>' <id_num> |  '>=' <id_num> |  '<=' <id_num>
+<exp_relacional> ::= <id_num> <termo_exp_relacional>
+<termo_exp_relacional> ::=  '=' <id_num> |  '>' <id_num> | '<' <id_num> |  '<>' <id_num> |  '>=' <id_num> |  '<=' <id_num>
 
 !Expressões lógicas
-<exp_logica> ::= <rootexp_logica> <aux4> | <nao_exp_logica>
-<aux4> ::= 'e' <exp_logica> |  'ou' <exp_logica>
+<exp_logica> ::= <rootexp_logica> <termo_exp_logica> | <nao_exp_logica>
+<termo_exp_logica> ::= 'e' <exp_logica> |  'ou' <exp_logica>
 <nao_exp_logica> ::= 'nao' <rootexp_logica> | <rootexp_logica>
 <rootexp_logica> ::=  <exp_relacional> | '('<exp_logica> ')'
