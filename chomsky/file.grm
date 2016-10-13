@@ -187,7 +187,7 @@ Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 
 <termo_exp_logica> ::= <e_pr> <exp_logica> |  <ou_pr> <exp_logica>
 
-<rootexp_logica> ::= Bool | <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <identificador_vetor> <termo_exp_relacional> | <identificador_parenteses><termo_exp_relacional> | <parenteses_exp_logica> <fecha_parenteses_del> | <string><igual_string> | <char><igual_char>
+<rootexp_logica> ::= <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <identificador_vetor> <termo_exp_relacional> | <identificador_parenteses><termo_exp_relacional> | <parenteses_exp_logica> <fecha_parenteses_del> | <string><igual_string> | <char><igual_char>
 
 <identificador_vetor> ::= <identificador><vetor>
 <identificador_parenteses> ::= <identificador><parametro_chamada_aberta>
