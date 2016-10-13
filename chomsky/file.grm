@@ -3,7 +3,7 @@
 "Version"  = '0.1'
 "About" = ''
 
-"Start Symbol" = <ini_arquivo>
+"Start Symbol" = <arquivo>
 "Case Sensitive" = True
 
 ! -------------------------------------------------
@@ -43,6 +43,7 @@ Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 <char> ::= Char
 <tipo_pr> ::= Tipo
 <identificador> ::= Identificador
+<bool> ::= Bool
 <numero> ::= Numero
 <inicio_pr> ::= 'inicio'
 <escreva_pr> ::= 'escreva'
@@ -68,9 +69,8 @@ Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 <div_op> ::= '/'
 
 !Estrutura do arquivo
-<ini_arquivo> ::= <constantes_varglobal> <programa_funcoes> | <var_global> <programa_funcoes> | <programa> <funcoes> | <programa_pr><bloco> | <constantes> <programa_funcoes> | <constantes> <programa> | <constantes_varglobal> <programa> | <var_global> <programa> | <lambda>
-
 <arquivo> ::= <constantes_varglobal> <programa_funcoes> | <var_global> <programa_funcoes> | <programa> <funcoes> | <programa_pr><bloco> | <constantes> <programa_funcoes> | <constantes> <programa> | <constantes_varglobal> <programa> | <var_global> <programa>
+
 <constantes_varglobal> ::= <constantes> <var_global>
 <programa_funcoes> ::= <programa> <funcoes>
 
@@ -91,7 +91,7 @@ Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 <declaracao_variavel> ::= <var_pr> <var_linha>
 <var_linha> ::= <tipo_pr> <conteudo_variavel>
 <conteudo_variavel> ::= <identificador> <termo_conteudo_var>
-<termo_conteudo_var> ::= <vetor><lista_variavel> | <lista_variavel>
+<termo_conteudo_var> ::= <vetor><lista_variavel> | <virgula_del> <conteudo_variavel> | ';'
 <lista_variavel> ::= <virgula_del> <conteudo_variavel> | ';'
 
 !Vetor
@@ -128,7 +128,7 @@ Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 <se_exp_logica> ::= <se_parenteses> <exp_logica_parenteses>
 <entao_bloco> ::= <entao_pr> <bloco>
 <entao_bloco_senao> ::= <entao_bloco> <comando_senao>
-<comando_senao> ::= 'senao' <bloco>
+<comando_senao> ::= <senao_pr> <bloco>
 
 !Comando enquanto
 <comando_enquanto> ::= <enquanto_pr> <abre_parenteses_del>
@@ -148,9 +148,9 @@ Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 <tipo_identificador> ::= <tipo_pr> <identificador>
 <parametro_func_bloco> ::= <parametro_funcao> <bloco>
 <parametro_funcao> ::= <abre_parenteses_del> <termo_parametro_funcao>
-<termo_parametro_funcao> ::= <tipo_identificador><lista_parametro> | ')'
-<conteudo_parametro> ::= <tipo_identificador><lista_parametro>
-<lista_parametro> ::= <virgula_del> <conteudo_parametro> | ')'
+<termo_parametro_funcao> ::= <tipo_identificador><param_termo> | ')'
+<param_termo> ::= <vetor><lista_parametro> | <virgula_del> <termo_parametro_funcao>
+<lista_parametro> ::= <virgula_del> <termo_parametro_funcao> | ')'
 
 !Chamada de Função
 <chamada_funcao> ::= <identificador><parametro_chamada>
@@ -177,16 +177,21 @@ Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 <parenteses_exp_arit> ::= <abre_parenteses_del> <exp_arit>
 
 !Expressões relacionais
-<exp_relacional> ::= <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <identificador_vetor> <termo_exp_relacional>
 
-<termo_exp_relacional> ::=  <igual_del> <identificador> |  <maior_del> <identificador> | <menor_del> <identificador> |  <dif_del> <identificador> |  <maior_ig_del> <identificador> |  <menor_ig_del> <identificador> | <igual_del> <numero> |  <maior_del> <numero> | <menor_del> <numero> |  <dif_del> <numero> |  <maior_ig_del> <numero> |  <menor_ig_del> <numero> | <igual_del> <identificador_vetor> |  <maior_del> <identificador_vetor> | <menor_del> <identificador_vetor> |  <dif_del> <identificador_vetor> |  <maior_ig_del> <identificador_vetor> |  <menor_ig_del><identificador_vetor>
-<identificador_vetor> ::= <identificador><vetor>
+<termo_exp_relacional> ::=  <igual_del> <identificador> |  <maior_del> <identificador> | <menor_del> <identificador> |  <dif_del> <identificador> |  <maior_ig_del> <identificador> |  <menor_ig_del> <identificador> | <igual_del> <numero> |  <maior_del> <numero> | <menor_del> <numero> |  <dif_del> <numero> |  <maior_ig_del> <numero> |  <menor_ig_del> <numero> | <igual_del> <identificador_vetor> |  <maior_del> <identificador_vetor> | <menor_del> <identificador_vetor> |  <dif_del> <identificador_vetor> |  <maior_ig_del> <identificador_vetor> |  <menor_ig_del><identificador_vetor> | <igual_del> <identificador_parenteses> |  <maior_del> <identificador_parenteses> | <menor_del> <identificador_parenteses> |  <dif_del> <identificador_parenteses> |  <maior_ig_del> <identificador_parenteses> |  <menor_ig_del><identificador_parenteses> | <igual_del><bool>
+
 
 !Expressões lógicas
-<exp_logica> ::= <rootexp_logica> <termo_exp_logica> | <nao_pr> <rootexp_logica> | <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <identificador_vetor> <termo_exp_relacional> | <parenteses_exp_logica> <fecha_parenteses_del>
+<exp_logica> ::= <rootexp_logica> <termo_exp_logica> | <nao_pr> <rootexp_logica> | Bool | <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <identificador_vetor> <termo_exp_relacional> | <identificador_parenteses><termo_exp_relacional> | <parenteses_exp_logica> <fecha_parenteses_del> | <string><igual_string> | <char><igual_char>
+
 
 <termo_exp_logica> ::= <e_pr> <exp_logica> |  <ou_pr> <exp_logica>
 
-<rootexp_logica> ::=  <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <parenteses_exp_logica> <fecha_parenteses_del>
+<rootexp_logica> ::= Bool | <identificador> <termo_exp_relacional> | <numero> <termo_exp_relacional> | <identificador_vetor> <termo_exp_relacional> | <identificador_parenteses><termo_exp_relacional> | <parenteses_exp_logica> <fecha_parenteses_del> | <string><igual_string> | <char><igual_char>
+
+<identificador_vetor> ::= <identificador><vetor>
+<identificador_parenteses> ::= <identificador><parametro_chamada_aberta>
+<igual_string> ::= <igual_del><string>
+<igual_char> ::= <igual_del><char>
 
 <parenteses_exp_logica> ::= <abre_parenteses_del><exp_logica>

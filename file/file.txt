@@ -117,13 +117,13 @@ Tipo = 'inteiro' | 'real' | 'cadeia' | 'caractere' | 'booleano'
 <termo_exp_arit> ::=  '+' <exp_arit> | '-' <exp_arit> | <lambda>
 <mulexp_arit> ::= <rootexp_arit> <termo_mulexp_arit>
 <termo_mulexp_arit> ::=  '*' <mulexp_arit> | '/' <mulexp_arit> | <lambda>
-<rootexp_arit> ::= '(' <exp_arit> ')' | <id_num> | <chamada_funcao>
+<rootexp_arit> ::= '(' <exp_arit> ')' | Numero | <chamada_funcao>
 
 !Expressões relacionais
-<exp_relacional> ::= <id_num_funcao> <termo_exp_relacional> | String '=' String | Char '=' Char | Bool
-<termo_exp_relacional> ::=  '=' <id_num_funcao_bool> |  '>' <id_num_funcao> | '<' <id_num_funcao> |  '<>' <id_num_funcao> |  '>=' <id_num_funcao> |  '<=' <id_num_funcao>
-<id_num_funcao> ::= <id_num> | <chamada_funcao>
-<id_num_funcao_bool> ::= <id_num_funcao> | Bool
+<exp_relacional> ::= <id_num> <termo_exp_relacional>
+<termo_exp_relacional> ::=  '=' <relacional_igual> |  '>' <relacional_outros> | '<' <relacional_outros> |  '<>' <relacional_outros> |  '>=' <relacional_outros> |  '<=' <relacional_outros>
+<relacional_igual> ::= Identificador | Numero | String | Char | Bool | <chamada_funcao>
+<relacional_outros> ::= <id_num> | <chamada_funcao>
 
 !Expressões lógicas
 <exp_logica> ::= <rootexp_logica> <termo_exp_logica> | <nao_exp_logica>
